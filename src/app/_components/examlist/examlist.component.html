@@ -1,0 +1,46 @@
+<div class="container mat-elevation-z8">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+
+  <h2>学号:{{examResult?.studentId}}</h2>
+  <h3>试卷:{{examResult?.exam.id}}({{examResult?.exam.description}})</h3>
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="查询值...">
+  </mat-form-field>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="table" matSort matSortActive="id">
+      <!-- Number Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>考题号</th>
+        <td mat-cell *matCellDef="let row">{{row.id}}</td>
+      </ng-container>
+
+      <!-- Title Column -->
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>分数</th>
+        <td mat-cell *matCellDef="let row">{{row.score}}</td>
+      </ng-container>
+
+      <!-- State Column -->
+      <ng-container matColumnDef="criteriaName">
+        <th mat-header-cell *matHeaderCellDef>评分标准</th>
+        <td mat-cell *matCellDef="let row">{{row.assCriteria.name}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="finalScore">
+        <th mat-header-cell *matHeaderCellDef>最终得分</th>
+        <td mat-cell *matCellDef="let row">
+          <input matInput type="number" [value]="row.finalScore" placeholder="最终得分" (keyup)="row.finalScore=iptScore.value;onScoreChanged();"
+            #iptScore>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

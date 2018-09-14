@@ -1,0 +1,66 @@
+.mat-full {
+  height: 100%;
+}
+
+.header-bar {
+  height: 60px;
+  padding: 5px 15px;
+  background-image: url('/assets/img/bg.gif');
+  line-height: 60px;
+}
+
+.header-bar .logo {
+  float: left;
+  height: 50px;
+}
+
+.header-bar h2 {
+  float: left;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white;
+  line-height: 60px;
+  margin: 0 0 0 15px
+}
+
+.header-bar a {
+  float: right;
+}
+
+.tool-bar {
+  position: absolute;
+  top: 1px;
+  height: 100%;
+  background-image: url('/assets/img/bg.gif');
+  color: white;
+}
+
+.tool-bar-spacer {
+  flex: 1 1 auto;
+}
+
+.tool-bar-icon {
+  width: 30px;
+}
+
+.url-content {
+  width: 100%;
+  position: absolute;
+  top: 1px;
+  padding: 2px 2px;
+}
+
+.tool-bar-active {
+  border-right: 2px solid red;
+  background-color: lightgray;
+  color: black;
+  opacity: 0.8;
+}
+
+.content-active {
+  display: block;
+}
+
+.content-inactive {
+  display: none;
+}

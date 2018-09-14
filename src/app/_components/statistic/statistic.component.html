@@ -1,0 +1,42 @@
+<h2>统计分析</h2>
+<mat-select [(value)]="examId" placeholder="选择考试" (selectionChange)="refreshStat();">
+  <mat-option *ngFor="let exam of exams" [value]="exam.id">{{exam.description}}</mat-option>
+</mat-select>
+
+<mat-grid-list cols="3">
+  <mat-grid-tile>
+    <mat-card class="stat-card">
+      <mat-card-header>
+        <mat-card-title class="full-width">
+          <h3>成绩统计信息</h3>
+        </mat-card-title>
+        <mat-card-subtitle class="full-width">
+          <h4>常规信息</h4>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>测试人数<span class="stat-item">{{stat?.studentCount}}</span></p>
+        <p>考题数量<span class="stat-item">{{stat?.examItemCount}}</span></p>
+        <p>最 高 分<span class="stat-item">{{stat?.maxScore}}</span></p>
+        <p>平 均 分<span class="stat-item">{{stat?.averageScore}}</span></p>
+        <p>最 低 分<span class="stat-item">{{stat?.minScore}}</span></p>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div appEChart [chartOptions]="optionScores" class="chart"></div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div appEChart [chartOptions]="optionRate" class="chart"></div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

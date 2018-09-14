@@ -1,0 +1,99 @@
+<mat-tab-group color="accent" backgroundColor="primary">
+  <mat-tab label="试卷列表">
+    <div class="container mat-elevation-z8">
+      <div class="button-row">
+        <button mat-raised-button (click)="add()">添加</button>
+        <button mat-raised-button color="primary" (click)="update()">修改</button>
+        <button mat-raised-button color="accent" (click)="delete()">删除</button>
+        <button mat-raised-button (click)="refresh()">刷新</button>
+      </div>
+
+      <alert></alert>
+      <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+      </div>
+
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="查询值...">
+      </mat-form-field>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" class="table" matSort matSortActive="id">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? singleToggle(row) : null" [checked]="selection.isSelected(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <!-- Number Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>标识号</th>
+            <td mat-cell *matCellDef="let row">{{row.id}}</td>
+          </ng-container>
+
+          <!-- Title Column -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>试卷说明</th>
+            <td mat-cell *matCellDef="let row">{{row.description}}</td>
+          </ng-container>
+
+          <!-- State Column -->
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef>是否激活</th>
+            <td mat-cell *matCellDef="let row">{{row.active? '激活':'未激活'}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="examItems">
+            <th mat-header-cell *matHeaderCellDef>试题详情</th>
+            <td mat-cell *matCellDef="let row">...</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="singleToggle(row);"></tr>
+        </table>
+      </div>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+  </mat-tab>
+  <mat-tab label="添加/更新">
+    <alert></alert>
+    <form [formGroup]="examForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="标识号" formControlName="id" [(ngModel)]="curExam.id" readonly>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="试卷说明" type="text" formControlName="description" [(ngModel)]="curExam.description">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-select matInput formControlName="active" [(value)]="examActive" placeholder="是否激活">
+          <mat-option value="0">
+            是
+          </mat-option>
+          <mat-option value="1">
+            否
+          </mat-option>
+        </mat-select>
+
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="试题列表" type="text" formControlName="examItems" [(ngModel)]="examItemsStr" readonly>
+      </mat-form-field>
+
+      <app-examitemlist [initSelection]="curExam.examItems" (selectionChanged)="onExamItemChanged($event)"></app-examitemlist>
+
+      <button mat-raised-button class="button-row" color="primary" type="submit">确定</button>
+      <button mat-raised-button class="button-row" (click)="tabGroup.selectedIndex = 0">取消</button>
+    </form>
+  </mat-tab>
+</mat-tab-group>

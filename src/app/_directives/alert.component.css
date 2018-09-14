@@ -1,0 +1,11 @@
+.alert {
+  font-size: 10px
+}
+
+.alert-success {
+  color: darkgreen;
+}
+
+.alert-danger {
+  color: brown
+}

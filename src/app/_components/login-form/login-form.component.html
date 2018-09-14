@@ -1,0 +1,42 @@
+<mat-grid-list cols="3" class="login-container">
+  <mat-grid-tile></mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card class="opacity-card">
+      <mat-card-header>
+        <mat-card-title>
+          <h2>
+            <img src="/assets/img/zime_logo3.jpg" class="logo-img">
+            <span>登 录</span>
+          </h2>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <alert></alert>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="用户名" formControlName="username" value="">
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <input matInput placeholder="密码" type="password" formControlName="password" value="">
+          </mat-form-field>
+
+          <!--mat-grid-list cols="5">
+            <mat-grid-tile colspan="3">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="验证码" formControlName="captcha" value="">
+              </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="2">
+              <img src="/user/stickyImg" class="captcha-img">
+            </mat-grid-tile>
+          </mat-grid-list-->
+
+          <button mat-raised-button color="primary" type="submit">确定</button>
+          <button mat-raised-button type="reset">取消</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile></mat-grid-tile>
+</mat-grid-list>

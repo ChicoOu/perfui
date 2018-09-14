@@ -1,0 +1,4 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="content" [ngClass]="{'login-bg':!authenticationService.loggedIn(), 'home-bg':authenticationService.loggedIn()}">
+  <router-outlet></router-outlet>
+</div>

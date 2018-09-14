@@ -1,0 +1,50 @@
+<div class="header-bar">
+  <img src="/assets/img/zime_logo2.png" class="logo">
+  <h2>检测台评分系统</h2>
+  <a mat-fab (click)="logout()" [routerLink]="['/login']">退出</a>
+</div>
+<mat-grid-list cols="5">
+  <mat-grid-tile class="mat-full">
+    <mat-toolbar class="tool-bar">
+      <mat-toolbar-row [ngClass]="{'tool-bar-active':curContent == 0}" (click)="switchContent(0)">
+        <span>评分管理</span>
+        <span class="tool-bar-spacer"></span>
+        <img src="/assets/img/7_48.png" class="tool-bar-icon">
+      </mat-toolbar-row>
+      <mat-toolbar-row [ngClass]="{'tool-bar-active':curContent == 1}" (click)="switchContent(1)">
+        <span>标准管理</span>
+        <span class="tool-bar-spacer"></span>
+        <img src="/assets/img/4_48.png" class="tool-bar-icon">
+      </mat-toolbar-row>
+      <mat-toolbar-row [ngClass]="{'tool-bar-active':curContent == 2}" (click)="switchContent(2)">
+        <span>考题管理</span>
+        <span class="tool-bar-spacer"></span>
+        <img src="/assets/img/2_48.png" class="tool-bar-icon">
+      </mat-toolbar-row>
+      <mat-toolbar-row [ngClass]="{'tool-bar-active':curContent == 3}" (click)="switchContent(3)">
+        <span>试卷管理</span>
+        <span class="tool-bar-spacer"></span>
+        <img src="/assets/img/3_48.png" class="tool-bar-icon">
+      </mat-toolbar-row>
+      <mat-toolbar-row [ngClass]="{'tool-bar-active':curContent == 4}" (click)="switchContent(4)">
+        <span>统计分析</span>
+        <span class="tool-bar-spacer"></span>
+        <img src="/assets/img/5_48.png" class="tool-bar-icon">
+      </mat-toolbar-row>
+      <mat-toolbar-row [ngClass]="{'tool-bar-active':curContent == 5}" (click)="switchContent(5)">
+        <span>用户管理</span>
+        <span class="tool-bar-spacer"></span>
+        <img src="/assets/img/6_48.png" class="tool-bar-icon">
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </mat-grid-tile>
+  <mat-grid-tile class="mat-full" colspan="4">
+    <!--router-outlet name="home-content"></router-outlet-->
+    <app-examresult class="url-content" [ngClass]="{'content-active':curContent == 0, 'content-inactive':curContent != 0}"></app-examresult>
+    <app-criteria class="url-content" [ngClass]="{'content-active':curContent == 1, 'content-inactive':curContent != 1}"></app-criteria>
+    <app-examitem class="url-content" [ngClass]="{'content-active':curContent == 2, 'content-inactive':curContent != 2}"></app-examitem>
+    <app-exam class="url-content" [ngClass]="{'content-active':curContent == 3, 'content-inactive':curContent != 3}"></app-exam>
+    <app-statistic class="url-content" [ngClass]="{'content-active':curContent == 4, 'content-inactive':curContent != 4}"></app-statistic>
+    <app-user class="url-content" [ngClass]="{'content-active':curContent == 5, 'content-inactive':curContent != 5}"></app-user>
+  </mat-grid-tile>
+</mat-grid-list>

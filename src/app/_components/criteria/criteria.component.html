@@ -1,0 +1,125 @@
+<mat-tab-group color="accent" backgroundColor="primary">
+  <mat-tab label="标准列表">
+    <div class="container mat-elevation-z8">
+      <div class="button-row">
+        <button mat-raised-button (click)="add()">添加</button>
+        <button mat-raised-button color="primary" (click)="update()">修改</button>
+        <button mat-raised-button color="accent" (click)="delete()">删除</button>
+        <button mat-raised-button (click)="refresh()">刷新</button>
+      </div>
+
+      <alert></alert>
+      <div class="loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+      </div>
+
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="查询值...">
+      </mat-form-field>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" class="table" matSort matSortActive="id">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? singleToggle(row) : null" [checked]="selection.isSelected(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <!-- Number Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>标识号</th>
+            <td mat-cell *matCellDef="let row">{{row.id}}</td>
+          </ng-container>
+
+          <!-- Title Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>名称</th>
+            <td mat-cell *matCellDef="let row">{{row.name}}</td>
+          </ng-container>
+
+          <!-- State Column -->
+          <ng-container matColumnDef="refValue">
+            <th mat-header-cell *matHeaderCellDef>参考值</th>
+            <td mat-cell *matCellDef="let row">{{row.refValue}}</td>
+          </ng-container>
+
+          <!-- Created Column -->
+          <ng-container matColumnDef="minLowerDeviation">
+            <th mat-header-cell *matHeaderCellDef>
+              最小下偏差
+            </th>
+            <td mat-cell *matCellDef="let row">{{row.minLowerDeviation}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="maxLowerDeviation">
+            <th mat-header-cell *matHeaderCellDef>
+              最大下偏差
+            </th>
+            <td mat-cell *matCellDef="let row">{{row.maxLowerDeviation}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="minUpperDeviation">
+            <th mat-header-cell *matHeaderCellDef>
+              最小上偏差
+            </th>
+            <td mat-cell *matCellDef="let row">{{row.minUpperDeviation}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="maxUpperDeviation">
+            <th mat-header-cell *matHeaderCellDef>
+              最大上偏差
+            </th>
+            <td mat-cell *matCellDef="let row">{{row.maxUpperDeviation}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="singleToggle(row);"></tr>
+        </table>
+      </div>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+  </mat-tab>
+  <mat-tab label="添加/更新">
+    <alert></alert>
+    <form [formGroup]="criteriaForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="标识号" formControlName="id" [(ngModel)]="curCriteria.id" readonly>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="名称" type="text" formControlName="name" [(ngModel)]="curCriteria.name">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="参考值" type="number" formControlName="refValue" [(ngModel)]="curCriteria.refValue">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="最小下偏差" type="number" formControlName="minLowerDeviation" [(ngModel)]="curCriteria.minLowerDeviation">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="最大下偏差" type="number" formControlName="maxLowerDeviation" [(ngModel)]="curCriteria.maxLowerDeviation">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="最小上偏差" type="number" formControlName="minUpperDeviation" [(ngModel)]="curCriteria.minUpperDeviation">
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <input matInput placeholder="最大上偏差" type="number" formControlName="maxUpperDeviation" [(ngModel)]="curCriteria.maxUpperDeviation">
+      </mat-form-field>
+
+      <button mat-raised-button class="button-row" color="primary" type="submit">确定</button>
+      <button mat-raised-button class="button-row" (click)="tabGroup.selectedIndex = 0">取消</button>
+    </form>
+  </mat-tab>
+</mat-tab-group>
